@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Register - Hashnode</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Hashnode
+        </div>
+
+        <div>
+
+            <a href="test.html">
+                Home
+            </a>
+
+            <a href="login.html">
+                Login
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- REGISTER FORM -->
+
+    <div class="container">
+
+        <div class="create-box">
+
+            <h2>
+                Create Account
+            </h2>
+
+
+            <input
+                type="text"
+                id="name"
+                placeholder="Enter your name"
+            >
+
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+            >
+
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+            >
+
+
+            <button
+                class="create-btn"
+                onclick="registerUser()">
+
+                Register
+
+            </button>
+
+
+            <p style="text-align:center; margin-top:20px;">
+
+                Already have an account?
+
+                <a href="login.html">
+                    Login
+                </a>
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function registerUser() {
+
+            const name =
+                document.getElementById("name").value.trim();
+
+            const email =
+                document.getElementById("email").value.trim();
+
+            const password =
+                document.getElementById("password").value.trim();
+
+
+            if (
+                name === "" ||
+                email === "" ||
+                password === ""
+            ) {
+
+                alert("Please fill all fields");
+
+                return;
+            }
+
+
+            const user = {
+
+                name: name,
+
+                email: email,
+
+                password: password
+
+            };
+
+
+            fetch("/users/register", {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type": "application/json"
+
+                },
+
+                body: JSON.stringify(user)
+
+            })
+
+
+            .then(response => {
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Registration failed"
+                    );
+
+                }
+
+                return response.json();
+
+            })
+
+
+            .then(data => {
+
+                alert(
+                    "Registration successful!"
+                );
+
+
+                document.getElementById(
+                    "name"
+                ).value = "";
+
+
+                document.getElementById(
+                    "email"
+                ).value = "";
+
+
+                document.getElementById(
+                    "password"
+                ).value = "";
+
+
+                window.location.href =
+                    "login.html";
+
+            })
+
+
+            .catch(error => {
+
+                console.log(error);
+
+                alert(
+                    "Error during registration"
+                );
+
+            });
+
+        }
+
+    </script>
+
+</body>
+
+</html>

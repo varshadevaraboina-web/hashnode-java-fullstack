@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Read Post - Hashnode</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Hashnode
+        </div>
+
+
+        <div>
+
+            <a href="test.html">
+                Home
+            </a>
+
+            <a href="test.html#posts">
+                Posts
+            </a>
+
+            <a href="test.html#create">
+                Create Post
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- POST DETAILS -->
+
+    <div class="container">
+
+
+        <div class="post"
+             style="
+                max-width:900px;
+                margin:50px auto;
+             ">
+
+
+            <h1 id="postTitle"
+                style="
+                    font-size:40px;
+                    margin-bottom:20px;
+                    color:#111827;
+                ">
+
+                Loading...
+
+            </h1>
+
+
+            <p id="postContent"
+               style="
+                    font-size:18px;
+                    line-height:1.8;
+                    color:#555;
+                    white-space:pre-wrap;
+               ">
+
+                Please wait...
+
+            </p>
+
+
+            <br>
+
+
+            <a href="test.html"
+               style="
+                    display:inline-block;
+                    background:#2563eb;
+                    color:white;
+                    padding:11px 20px;
+                    border-radius:7px;
+                    text-decoration:none;
+                    font-weight:bold;
+               ">
+
+                ← Back to Posts
+
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <script>
+
+
+        // GET POST ID FROM URL
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const postId =
+            params.get("id");
+
+
+
+        // CHECK ID
+
+        if (!postId) {
+
+            document.getElementById(
+                "postTitle"
+            ).innerText =
+                "Post not found";
+
+
+            document.getElementById(
+                "postContent"
+            ).innerText =
+                "No post ID was provided.";
+
+        }
+
+        else {
+
+
+            // GET ALL POSTS
+
+            fetch("/posts")
+
+            .then(response =>
+                response.json()
+            )
+
+            .then(posts => {
+
+
+                // FIND POST
+
+                const post =
+                    posts.find(
+                        p =>
+                            p.id == postId
+                    );
+
+
+                if (!post) {
+
+
+                    document.getElementById(
+                        "postTitle"
+                    ).innerText =
+                        "Post not found";
+
+
+                    document.getElementById(
+                        "postContent"
+                    ).innerText =
+                        "The requested post does not exist.";
+
+                    return;
+
+                }
+
+
+                // DISPLAY POST
+
+                document.getElementById(
+                    "postTitle"
+                ).innerText =
+                    post.title;
+
+
+                document.getElementById(
+                    "postContent"
+                ).innerText =
+                    post.content;
+
+            })
+
+            .catch(error => {
+
+
+                console.log(error);
+
+
+                document.getElementById(
+                    "postTitle"
+                ).innerText =
+                    "Error";
+
+
+                document.getElementById(
+                    "postContent"
+                ).innerText =
+                    "Unable to load the post.";
+
+            });
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>
